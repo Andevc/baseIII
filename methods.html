@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheatsheet — Metodologías DW / NoSQL / BigData</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --dw: #f4a261;
+    --dw-dim: rgba(244,162,97,0.12);
+    --nosql: #48cae4;
+    --nosql-dim: rgba(72,202,228,0.12);
+    --big: #a8dadc;
+    --big-dim: rgba(168,218,220,0.12);
+    --hefesto: #e76f51;
+    --hefesto-dim: rgba(231,111,81,0.12);
+    --ddd: #90be6d;
+    --ddd-dim: rgba(144,190,109,0.12);
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --step-bg: rgba(255,255,255,0.04);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0a0f 0%, #10101a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+  header .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+  }
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .b-dw   { background: var(--dw-dim);      color: var(--dw);      border:1px solid var(--dw); }
+  .b-nosql{ background: var(--nosql-dim);    color: var(--nosql);   border:1px solid var(--nosql); }
+  .b-big  { background: var(--big-dim);      color: var(--big);     border:1px solid var(--big); }
+  .b-hef  { background: var(--hefesto-dim);  color: var(--hefesto); border:1px solid var(--hefesto); }
+  .b-ddd  { background: var(--ddd-dim);      color: var(--ddd);     border:1px solid var(--ddd); }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+  }
+  .card {
+    background: var(--surface);
+    padding: 20px 22px 22px;
+  }
+  .card.full { grid-column: 1 / -1; }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 5px; }
+  .step {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--step-bg);
+    border-radius: 4px;
+    padding: 7px 10px;
+  }
+  .step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 20px;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+  .step-body strong {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+    font-size: 12px;
+  }
+  .step-body span {
+    font-size: 11.5px;
+    color: #b0b0c8;
+  }
+
+  /* COLOR ACCENTS PER CARD */
+  .c-dw    .card-title { color: var(--dw); }
+  .c-dw    .step-num   { color: var(--dw); }
+  .c-dw    .step       { border-left: 2px solid var(--dw); }
+
+  .c-hef   .card-title { color: var(--hefesto); }
+  .c-hef   .step-num   { color: var(--hefesto); }
+  .c-hef   .step       { border-left: 2px solid var(--hefesto); }
+
+  .c-nosql .card-title { color: var(--nosql); }
+  .c-nosql .step-num   { color: var(--nosql); }
+  .c-nosql .step       { border-left: 2px solid var(--nosql); }
+
+  .c-ddd   .card-title { color: var(--ddd); }
+  .c-ddd   .step-num   { color: var(--ddd); }
+  .c-ddd   .step       { border-left: 2px solid var(--ddd); }
+
+  .c-big   .card-title { color: var(--big); }
+  .c-big   .step-num   { color: var(--big); }
+  .c-big   .step       { border-left: 2px solid var(--big); }
+
+  /* INLINE TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid;
+    opacity: 0.8;
+  }
+
+  /* TABLE */
+  table { width:100%; border-collapse: collapse; margin-top: 10px; }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  td {
+    font-size: 11.5px;
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* DIVIDER LABEL */
+  .section-label {
+    grid-column: 1 / -1;
+    background: var(--border);
+    padding: 6px 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* COMPARISON GRID */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .comp-cell {
+    background: var(--step-bg);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 11px;
+  }
+  .comp-cell strong {
+    display: block;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 3px;
+    opacity: 0.6;
+  }
+
+  /* NOTA CLAVE */
+  .nota {
+    background: rgba(244,162,97,0.06);
+    border: 1px solid rgba(244,162,97,0.25);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-top: 10px;
+    font-size: 11.5px;
+    color: #d4a57a;
+  }
+  .nota::before { content: "⚡ "; }
+
+  @media print {
+    body { background: white; color: #111; }
+    .grid { background: #ccc; }
+    .card { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="sub">CHEATSHEET · EXAMEN</div>
+    <h1>Metodologías
+      <span class="badge b-dw">DataWarehouse</span>
+      <span class="badge b-nosql">NoSQL</span>
+      <span class="badge b-big">BigData</span>
+    </h1>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- ════════ SECCIÓN 1: DATAWAREHOUSE ════════ -->
+  <div class="section-label">① Data Warehouse &amp; Data Mart — Conceptos y Construcción</div>
+
+  <!-- DATA WAREHOUSE -->
+  <div class="card c-dw">
+    <div class="card-title">🏛 Data Warehouse (DW)</div>
+    <div class="card-desc">Repositorio central integrado de datos históricos para análisis y toma de decisiones.</div>
+    <div class="steps">
+      <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Definir requerimientos</strong><span>¿Qué preguntas de negocio debe responder? ¿Qué KPIs? Entrevistas con usuarios.</span></div></div>
+      <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Identificar fuentes de datos (OLTP)</strong><span>ERP, CRM, archivos planos, APIs externas. Analizar calidad y estructura.</span></div></div>
+      <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Diseñar modelo dimensional</strong><span>Elegir esquema: Estrella (Star) o Copo de Nieve (Snowflake). Definir hechos y dimensiones.</span></div></div>
+      <div class="step"><span class="step-num">04</span><div class="step-body"><strong>Proceso ETL</strong><span><b>E</b>xtracción → fuentes OLTP. <b>T</b>ransformación → limpieza, integración, normalización. <b>L</b>oad → cargar al DW.</span></div></div>
+      <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Poblar y validar</strong><span>Carga inicial histórica. Validar integridad con conteos y checksums.</span></div></div>
+      <div class="step"><span class="step-num">06</span><div class="step-body"><strong>Crear capas semánticas / Data Marts</strong><span>Subconjuntos por área (Ventas, RRHH). Cubos OLAP para análisis multidimensional.</span></div></div>
+      <div class="step"><span class="step-num">07</span><div class="step-body"><strong>Publicar y mantener</strong><span>Conectar herramienta BI (Power BI, Pentaho). Programar cargas incrementales.</span></div></div>
+    </div>
+    <div class="tags">
+      <span class="tag" style="color:var(--dw);border-color:var(--dw)">OLAP</span>
+      <span class="tag" style="color:var(--dw);border-color:var(--dw)">Hechos + Dimensiones</span>
+      <span class="tag" style="color:var(--dw);border-color:var(--dw)">Esquema Estrella</span>
+      <span class="tag" style="color:var(--dw);border-color:var(--dw)">ETL</span>
+      <span class="tag" style="color:var(--dw);border-color:var(--dw)">Datos Históricos</span>
+    </div>
+  </div>
+
+  <!-- DATA MART -->
+  <div class="card c-dw">
+    <div class="card-title">🧩 Data Mart</div>
+    <div class="card-desc">Subconjunto temático del DW orientado a un área de negocio específica.</div>
+    <div class="steps">
+      <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Definir el área de negocio</strong><span>Ej: Ventas, Finanzas, Marketing. Delimitar el alcance del Data Mart.</span></div></div>
+      <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Elegir enfoque: Dependiente vs Independiente</strong><span><b>Dependiente</b>: se alimenta del DW central. <b>Independiente</b>: tiene su propia fuente ETL.</span></div></div>
+      <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Modelar hechos y dimensiones del área</strong><span>Tabla de hechos (métricas cuantificables) + tablas de dimensiones (contexto: tiempo, producto, cliente).</span></div></div>
+      <div class="step"><span class="step-num">04</span><div class="step-body"><strong>ETL específico del Data Mart</strong><span>Extraer desde DW (si dependiente) o fuentes OLTP. Transformar al modelo dimensional definido.</span></div></div>
+      <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Construir cubos OLAP</strong><span>Agregaciones pre-calculadas para drill-down, roll-up, slice &amp; dice en reportes.</span></div></div>
+      <div class="step"><span class="step-num">06</span><div class="step-body"><strong>Conectar a herramienta BI</strong><span>Power BI, Pentaho BI, Tableau. Definir roles y permisos por área.</span></div></div>
+    </div>
+    <div class="nota">DW → general, toda la empresa. Data Mart → específico, un departamento.</div>
+  </div>
+
+  <!-- ════════ SECCIÓN 2: HEFESTO ════════ -->
+  <div class="section-label">② Metodología Hefesto — Paso a Paso Completo</div>
+
+  <!-- HEFESTO - full width -->
+  <div class="card full c-hef">
+    <div class="card-title">🔥 Metodología Hefesto (DW Iterativo)</div>
+    <div class="card-desc">Metodología latinoamericana para construcción de DW. Orientada a requerimientos del usuario. 4 grandes etapas.</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:6px;">
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--hefesto);letter-spacing:1px;margin-bottom:6px;">ETAPA 1 · ANÁLISIS</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">1.1</span><div class="step-body"><strong>Identificar preguntas del negocio</strong><span>Entrevistas con usuarios. ¿Qué necesitan analizar?</span></div></div>
+          <div class="step"><span class="step-num">1.2</span><div class="step-body"><strong>Identificar indicadores y perspectivas</strong><span><b>Indicadores</b>: métricas (ventas, cantidad). <b>Perspectivas</b>: dimensiones (tiempo, producto, región).</span></div></div>
+          <div class="step"><span class="step-num">1.3</span><div class="step-body"><strong>Modelo conceptual</strong><span>Diagrama de estrella conceptual: indicadores en centro + perspectivas alrededor.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--hefesto);letter-spacing:1px;margin-bottom:6px;">ETAPA 2 · ANÁLISIS OLTP</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">2.1</span><div class="step-body"><strong>Explorar OLTP origen</strong><span>Mapear tablas de la BD transaccional. Buscar donde residen indicadores y perspectivas.</span></div></div>
+          <div class="step"><span class="step-num">2.2</span><div class="step-body"><strong>Conformar indicadores</strong><span>Verificar si se calculan directamente o requieren transformación (suma, promedio, etc.).</span></div></div>
+          <div class="step"><span class="step-num">2.3</span><div class="step-body"><strong>Nivel de granularidad</strong><span>¿Al detalle de qué se almacena? Ej: por día, por factura, por sucursal.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--hefesto);letter-spacing:1px;margin-bottom:6px;">ETAPA 3 · MODELO LÓGICO</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">3.1</span><div class="step-body"><strong>Tabla de hechos</strong><span>Columnas = indicadores (métricas FK a dimensiones). Granularidad definida.</span></div></div>
+          <div class="step"><span class="step-num">3.2</span><div class="step-body"><strong>Tablas de dimensiones</strong><span>Atributos descriptivos de cada perspectiva. Surrogate key (SK) artificial.</span></div></div>
+          <div class="step"><span class="step-num">3.3</span><div class="step-body"><strong>Completar diagrama estrella/snowflake</strong><span>Verificar integridad referencial y cardinalidad entre hechos y dimensiones.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--hefesto);letter-spacing:1px;margin-bottom:6px;">ETAPA 4 · INTEGRACIÓN</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">4.1</span><div class="step-body"><strong>Diseñar ETL</strong><span>Mapeo OLTP → DW. Transformaciones, limpieza de nulos, homogenización.</span></div></div>
+          <div class="step"><span class="step-num">4.2</span><div class="step-body"><strong>Carga inicial</strong><span>Poblar dimensiones primero (SCD si aplica), luego tabla de hechos.</span></div></div>
+          <div class="step"><span class="step-num">4.3</span><div class="step-body"><strong>Carga incremental</strong><span>Programar actualizaciones periódicas (diarias, semanales). Detectar cambios en fuente.</span></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nota" style="margin-top:12px; border-color:rgba(231,111,81,0.4); color:#e8a090;">
+      Hefesto es iterativo: al terminar etapa 4 se vuelve a etapa 1 para nuevos requerimientos. Preguntas del negocio → modelo → ETL → BI.
+    </div>
+  </div>
+
+  <!-- ════════ SECCIÓN 3: DDD ════════ -->
+  <div class="section-label">③ Metodología DDD — Domain-Driven Design para NoSQL</div>
+
+  <!-- DDD -->
+  <div class="card full c-ddd">
+    <div class="card-title">🌿 Metodología DDD (Domain-Driven Design)</div>
+    <div class="card-desc">Diseño orientado al dominio del negocio. Fundamental para modelar datos en NoSQL según cómo se accede, no cómo se almacena relacionalmente.</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px;">
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ddd);letter-spacing:1px;margin-bottom:6px;">CONCEPTOS CLAVE DDD</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Dominio</strong><span>El área de negocio que se modela (ej: "Ventas Online").</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Entidad (Entity)</strong><span>Objeto con identidad única y ciclo de vida. Ej: Cliente, Pedido.</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Objeto de Valor (Value Object)</strong><span>Sin identidad propia, define por sus atributos. Ej: Dirección, Precio.</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Agregado (Aggregate)</strong><span>Conjunto de entidades y value objects con raíz. La raíz garantiza invariantes. Ej: Pedido (raíz) + Ítems.</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Repositorio</strong><span>Abstracción de acceso a datos. Cada agregado tiene un repositorio.</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Bounded Context</strong><span>Límite explícito donde un modelo domina. Ej: Contexto "Envíos" vs "Facturación".</span></div></div>
+          <div class="step"><span class="step-num">▸</span><div class="step-body"><strong>Ubiquitous Language</strong><span>Vocabulario común entre devs y negocio dentro del bounded context.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ddd);letter-spacing:1px;margin-bottom:6px;">PASOS PARA APLICAR DDD EN NoSQL</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Entender el dominio</strong><span>Entrevistas con expertos del negocio. Construir el Ubiquitous Language.</span></div></div>
+          <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Definir Bounded Contexts</strong><span>Separar dominios con límites claros. Cada contexto puede tener su propia BD.</span></div></div>
+          <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Identificar Agregados y sus raíces</strong><span>Definir qué entidades van juntas. La raíz del agregado = unidad de consistencia.</span></div></div>
+          <div class="step"><span class="step-num">04</span><div class="step-body"><strong>Modelar según patrones de acceso</strong><span>En NoSQL: diseñar el modelo según las QUERIES, no la normalización. Desnormalizar si es necesario.</span></div></div>
+          <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Elegir BD NoSQL según el agregado</strong><span>Documentos complejos → MongoDB. Grafos de relaciones → Neo4j. Clave-valor simple → Redis. Series temporales/alta escala → Cassandra.</span></div></div>
+          <div class="step"><span class="step-num">06</span><div class="step-body"><strong>Definir repositorios por agregado</strong><span>Interfaces de acceso: findById, save, delete. El repositorio oculta la BD subyacente.</span></div></div>
+          <div class="step"><span class="step-num">07</span><div class="step-body"><strong>Context Mapping (si hay múltiples contextos)</strong><span>Definir cómo se comunican: Shared Kernel, Anti-Corruption Layer, Published Language.</span></div></div>
+        </div>
+        <div class="nota" style="border-color:rgba(144,190,109,0.4);color:#a8d080;margin-top:8px;">
+          En NoSQL: el Agregado define el documento. Guarda todo lo que se consulta junto, EN EL MISMO DOCUMENTO.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ SECCIÓN 4: BIGDATA ════════ -->
+  <div class="section-label">④ Arquitectura BigData — Capas y Estrategias</div>
+
+  <!-- BIGDATA -->
+  <div class="card full c-big">
+    <div class="card-title">🌊 Arquitectura BigData (Lambda / Kappa)</div>
+    <div class="card-desc">Diseño de sistemas para procesar grandes volúmenes, variedad y velocidad de datos (las 5 V's).</div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px; margin-top:6px;">
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--big);letter-spacing:1px;margin-bottom:6px;">LAS 5 V's DEL BIGDATA</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">V1</span><div class="step-body"><strong>Volumen</strong><span>Terabytes, Petabytes de datos. Requiere almacenamiento distribuido (HDFS, S3).</span></div></div>
+          <div class="step"><span class="step-num">V2</span><div class="step-body"><strong>Velocidad</strong><span>Datos en tiempo real o near-real-time. Kafka, Spark Streaming.</span></div></div>
+          <div class="step"><span class="step-num">V3</span><div class="step-body"><strong>Variedad</strong><span>Estructurados, semi-estructurados (JSON, XML) y no estructurados (imágenes, texto).</span></div></div>
+          <div class="step"><span class="step-num">V4</span><div class="step-body"><strong>Veracidad</strong><span>Calidad e incertidumbre de los datos. Necesario validar y limpiar.</span></div></div>
+          <div class="step"><span class="step-num">V5</span><div class="step-body"><strong>Valor</strong><span>El fin último: extraer conocimiento accionable del dato.</span></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--big);letter-spacing:1px;margin-bottom:6px;">ARQUITECTURA LAMBDA (3 CAPAS)</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">L1</span><div class="step-body"><strong>Batch Layer (capa fría)</strong><span>Procesa TODOS los datos históricos. Alta latencia, alta precisión. Ej: Hadoop MapReduce, Spark Batch.</span></div></div>
+          <div class="step"><span class="step-num">L2</span><div class="step-body"><strong>Speed Layer (capa caliente)</strong><span>Procesa datos en tiempo real. Baja latencia, datos recientes. Ej: Spark Streaming, Flink, Storm.</span></div></div>
+          <div class="step"><span class="step-num">L3</span><div class="step-body"><strong>Serving Layer (capa de servicio)</strong><span>Combina resultados de Batch + Speed. Responde queries. Ej: HBase, Cassandra, ElasticSearch.</span></div></div>
+        </div>
+        <div class="nota" style="border-color:rgba(168,218,220,0.35);color:#90c8ca;">
+          Lambda: batch para exactitud histórica + speed para frescura reciente. Complejidad: mantener 2 pipelines.
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--big);letter-spacing:1px;margin-bottom:6px;">ARQUITECTURA KAPPA (SIMPLIFICADA)</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">K1</span><div class="step-body"><strong>Un solo pipeline de streaming</strong><span>Todo pasa por la capa de velocidad. No hay capa batch separada.</span></div></div>
+          <div class="step"><span class="step-num">K2</span><div class="step-body"><strong>Log inmutable como fuente de verdad</strong><span>Kafka como log de eventos. Permite re-procesar desde el inicio.</span></div></div>
+          <div class="step"><span class="step-num">K3</span><div class="step-body"><strong>Serving Layer</strong><span>Resultados del stream se vuelcan a BD de consulta. Más simple de operar.</span></div></div>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--big);letter-spacing:1px;margin:10px 0 6px;">PASOS PARA PLANTEAR UNA ARQUITECTURA BD</div>
+        <div class="steps">
+          <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Ingesta</strong><span>Definir fuentes y conectores (Kafka, Flume, Sqoop, APIs).</span></div></div>
+          <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Almacenamiento crudo (Data Lake)</strong><span>HDFS, S3, Azure Blob. Guardar datos sin transformar.</span></div></div>
+          <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Procesamiento</strong><span>Batch (Spark) o Streaming (Flink). Limpiar, transformar, enriquecer.</span></div></div>
+          <div class="step"><span class="step-num">04</span><div class="step-body"><strong>Almacenamiento analítico</strong><span>Data Warehouse (Hive, BigQuery) o NoSQL según tipo de query.</span></div></div>
+          <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Consumo y visualización</strong><span>BI tools, APIs REST, ML pipelines, dashboards.</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ SECCIÓN 5: COMPARACIÓN CRITERIOS NOSQL ════════ -->
+  <div class="section-label">⑤ Criterios de Selección de BD NoSQL — Resumen por Tipo</div>
+
+  <div class="card full c-nosql">
+    <div class="card-title">🔵 Cuándo usar cada tipo de BD NoSQL</div>
+    <div class="card-desc">Criterios de decisión basados en el modelo de datos, patrón de acceso y requisitos del sistema.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>TIPO</th>
+          <th>MODELO</th>
+          <th>ÚSALO CUANDO...</th>
+          <th>FORTALEZA</th>
+          <th>EVITAR SI...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--nosql);font-weight:600;font-family:'IBM Plex Mono',monospace">Documental<br><span style="opacity:.5;font-size:10px">MongoDB, CouchDB</span></td>
+          <td>Documentos JSON/BSON anidados</td>
+          <td>Datos semi-estructurados, esquema variable, jerarquías complejas (catálogos, perfiles, CMS)</td>
+          <td>Consultas ricas, índices secundarios, flexibilidad de esquema</td>
+          <td>Relaciones complejas entre entidades (usa grafos) o transacciones multi-documento críticas</td>
+        </tr>
+        <tr>
+          <td style="color:#ffd166;font-weight:600;font-family:'IBM Plex Mono',monospace">Clave-Valor<br><span style="opacity:.5;font-size:10px">Redis, DynamoDB</span></td>
+          <td>Hash table distribuida</td>
+          <td>Caché, sesiones, contadores, colas, configuraciones. Acceso por ID exacto, ultra-rápido</td>
+          <td>Latencia sub-milisegundo, escalado horizontal simple</td>
+          <td>Necesitas consultar por campos distintos a la clave o relaciones entre datos</td>
+        </tr>
+        <tr>
+          <td style="color:#c77dff;font-weight:600;font-family:'IBM Plex Mono',monospace">Grafo<br><span style="opacity:.5;font-size:10px">Neo4j</span></td>
+          <td>Nodos + Relaciones + Propiedades</td>
+          <td>Redes sociales, recomendaciones, detección de fraude, rutas, cualquier dato altamente relacional</td>
+          <td>Traversal de relaciones profundas sin JOINs costosos</td>
+          <td>Datos no relacionales o consultas simples por clave</td>
+        </tr>
+        <tr>
+          <td style="color:#f77f00;font-weight:600;font-family:'IBM Plex Mono',monospace">Columnar<br><span style="opacity:.5;font-size:10px">Cassandra, HBase</span></td>
+          <td>Familias de columnas (filas + columnas dinámicas)</td>
+          <td>Series temporales, IoT, logs, escritura masiva y continua, alta disponibilidad geográfica</td>
+          <td>Escritura extremadamente rápida, escalado lineal, tolerancia a fallos</td>
+          <td>Consultas ad-hoc complejas o esquema muy cambiante por fila</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="nota" style="border-color:rgba(72,202,228,0.35);color:#70c0d0;margin-top:10px;">
+      Regla DDD → el tipo de BD NoSQL se elige por el Agregado y su patrón de acceso, NO por el volumen ni la popularidad.
+    </div>
+  </div>
+
+</div><!-- /grid -->
+
+</body>
+</html>
